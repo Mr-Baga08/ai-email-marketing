@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500">
+  <!-- Dark blue background -->
+  <rect width="1200" height="500" fill="#0a2559" />
+  
+  <!-- Digital circuit pattern -->
+  <g stroke="#1976d2" stroke-width="1.5" fill="none" opacity="0.2">
+    <!-- Horizontal lines -->
+    <line x1="0" y1="50" x2="1200" y2="50" />
+    <line x1="0" y1="100" x2="1200" y2="100" />
+    <line x1="0" y1="150" x2="1200" y2="150" />
+    <line x1="0" y1="200" x2="1200" y2="200" />
+    <line x1="0" y1="250" x2="1200" y2="250" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="350" x2="1200" y2="350" />
+    <line x1="0" y1="400" x2="1200" y2="400" />
+    <line x1="0" y1="450" x2="1200" y2="450" />
+    
+    <!-- Vertical lines -->
+    <line x1="50" y1="0" x2="50" y2="500" />
+    <line x1="150" y1="0" x2="150" y2="500" />
+    <line x1="250" y1="0" x2="250" y2="500" />
+    <line x1="350" y1="0" x2="350" y2="500" />
+    <line x1="450" y1="0" x2="450" y2="500" />
+    <line x1="550" y1="0" x2="550" y2="500" />
+    <line x1="650" y1="0" x2="650" y2="500" />
+    <line x1="750" y1="0" x2="750" y2="500" />
+    <line x1="850" y1="0" x2="850" y2="500" />
+    <line x1="950" y1="0" x2="950" y2="500" />
+    <line x1="1050" y1="0" x2="1050" y2="500" />
+    <line x1="1150" y1="0" x2="1150" y2="500" />
+  </g>
+  
+  <!-- Connection nodes -->
+  <g>
+    <!-- Node connections -->
+    <line x1="150" y1="100" x2="250" y2="150" stroke="#4dabf5" stroke-width="2" />
+    <line x1="250" y1="150" x2="350" y2="100" stroke="#4dabf5" stroke-width="2" />
+    <line x1="350" y1="100" x2="450" y2="200" stroke="#4dabf5" stroke-width="2" />
+    <line x1="450" y1="200" x2="550" y2="150" stroke="#4dabf5" stroke-width="2" />
+    <line x1="550" y1="150" x2="650" y2="250" stroke="#4dabf5" stroke-width="2" />
+    <line x1="650" y1="250" x2="750" y2="200" stroke="#4dabf5" stroke-width="2" />
+    <line x1="750" y1="200" x2="850" y2="300" stroke="#4dabf5" stroke-width="2" />
+    <line x1="850" y1="300" x2="950" y2="250" stroke="#4dabf5" stroke-width="2" />
+    
+    <line x1="150" y1="300" x2="250" y2="350" stroke="#4dabf5" stroke-width="2" />
+    <line x1="250" y1="350" x2="350" y2="300" stroke="#4dabf5" stroke-width="2" />
+    <line x1="350" y1="300" x2="450" y2="400" stroke="#4dabf5" stroke-width="2" />
+    <line x1="450" y1="400" x2="550" y2="350" stroke="#4dabf5" stroke-width="2" />
+    <line x1="550" y1="350" x2="650" y2="400" stroke="#4dabf5" stroke-width="2" />
+    <line x1="650" y1="400" x2="750" y2="350" stroke="#4dabf5" stroke-width="2" />
+    <line x1="750" y1="350" x2="850" y2="400" stroke="#4dabf5" stroke-width="2" />
+    <line x1="850" y1="400" x2="950" y2="350" stroke="#4dabf5" stroke-width="2" />
+    
+    <!-- Vertical connections -->
+    <line x1="250" y1="150" x2="250" y2="350" stroke="#4dabf5" stroke-width="2" />
+    <line x1="450" y1="200" x2="450" y2="400" stroke="#4dabf5" stroke-width="2" />
+    <line x1="650" y1="250" x2="650" y2="400" stroke="#4dabf5" stroke-width="2" />
+    <line x1="850" y1="300" x2="850" y2="400" stroke="#4dabf5" stroke-width="2" />
+  </g>
+  
+  <!-- Main circuit nodes (blue dots) -->
+  <g fill="#64b5f6">
+    <circle cx="150" cy="100" r="6" />
+    <circle cx="250" cy="150" r="6" />
+    <circle cx="350" cy="100" r="6" />
+    <circle cx="450" cy="200" r="6" />
+    <circle cx="550" cy="150" r="6" />
+    <circle cx="650" cy="250" r="6" />
+    <circle cx="750" cy="200" r="6" />
+    <circle cx="850" cy="300" r="6" />
+    <circle cx="950" cy="250" r="6" />
+    
+    <circle cx="150" cy="300" r="6" />
+    <circle cx="250" cy="350" r="6" />
+    <circle cx="350" cy="300" r="6" />
+    <circle cx="450" cy="400" r="6" />
+    <circle cx="550" cy="350" r="6" />
+    <circle cx="650" cy="400" r="6" />
+    <circle cx="750" cy="350" r="6" />
+    <circle cx="850" cy="400" r="6" />
+    <circle cx="950" cy="350" r="6" />
+  </g>
+  
+  <!-- Highlighted security nodes (yellow dots) -->
+  <g fill="#ffc107">
+    <circle cx="250" cy="150" r="8" />
+    <circle cx="550" cy="150" r="8" />
+    <circle cx="850" cy="300" r="8" />
+    <circle cx="450" cy="400" r="8" />
+  </g>
+  
+  <!-- Shield icon (center) -->
+  <g transform="translate(600, 250) scale(1.2)">
+    <!-- Shield outline -->
+    <path d="M0,-60 C30,-50 60,-60 60,-40 C60,20 30,60 0,80 C-30,60 -60,20 -60,-40 C-60,-60 -30,-50 0,-60 Z" 
+          fill="#0d47a1" stroke="#1976d2" stroke-width="2" />
+    
+    <!-- Lock icon inside shield -->
+    <rect x="-20" y="-10" width="40" height="35" rx="5" ry="5" fill="#1976d2" />
+    <rect x="-12" y="-25" width="24" height="25" rx="12" ry="12" fill="none" stroke="#1976d2" stroke-width="8" />
+    <circle cx="0" cy="5" r="5" fill="#ffc107" />
+    <line x1="0" y1="5" x2="0" y2="15" stroke="#ffc107" stroke-width="3" />
+  </g>
+  
+  <!-- Binary code in background (subtle) -->
+  <g fill="#ffffff" opacity="0.05" font-family="monospace">
+    <text x="100" y="80" font-size="10">10110110</text>
+    <text x="300" y="120" font-size="10">01001010</text>
+    <text x="500" y="160" font-size="10">11001100</text>
+    <text x="700" y="200" font-size="10">00110011</text>
+    <text x="900" y="240" font-size="10">10101010</text>
+    <text x="200" y="280" font-size="10">01100110</text>
+    <text x="400" y="320" font-size="10">11011011</text>
+    <text x="600" y="360" font-size="10">00101011</text>
+    <text x="800" y="400" font-size="10">10011001</text>
+    <text x="980" y="440" font-size="10">01010101</text>
+  </g>
+  
+  <!-- Translucent overlay to improve text readability -->
+  <rect width="1200" height="500" fill="#0a2559" opacity="0.3" />
+</svg>

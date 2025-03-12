@@ -1,0 +1,48 @@
+import os
+import shutil
+
+# Source folder where random images are stored
+source_folder = "/home/mrunal/Pictures/history_of_cybersecurity"
+# Destination root folder
+destination_folder = "/home/mrunal/Documents/AutoEmail/email-marketing-ai/client/public/images"
+
+# List of required filenames with paths
+file_mappings = [
+    "apple-touch-icon.png",
+    "hero-dashboard.png", "ai-automation.png", "email-campaign-creator.png",
+    "contact-management.png", "analytics-dashboard.png",
+    "features/email-marketing.svg", "features/ai-automation.svg", "features/analytics.svg",
+    "features/contact-management.svg", "features/templates.svg", "features/knowledge-base.svg",
+    "onboarding/step1.png", "onboarding/step2.png", "onboarding/step3.png",
+    "empty-states/no-campaigns.svg", "empty-states/no-contacts.svg", "empty-states/no-automation.svg",
+    "providers/titan.png", "providers/gmail.png", "providers/outlook.png", "providers/generic-email.png",
+    "cards/campaign-performance.svg", "cards/audience-growth.svg", "cards/automation-status.svg", "cards/quick-actions.svg",
+    "testimonials/testimonial1.jpg", "testimonials/testimonial2.jpg", "testimonials/testimonial3.jpg",
+    "clients/client-logos.png", "backgrounds/pattern-light.svg", "backgrounds/pattern-dark.svg",
+    "placeholders/user-avatar.png", "placeholders/chart-placeholder.svg",
+    "success-check.svg", "loading-animation.svg"
+]
+
+# Get all available images in the source folder
+available_images = sorted(os.listdir(source_folder))
+
+# Ensure the number of images matches the required filenames
+if len(available_images) < len(file_mappings):
+    print("Error: Not enough images in the source folder to match all required filenames.")
+else:
+    for i, filename in enumerate(file_mappings):
+        if i >= len(available_images):
+            break  # Stop if we run out of images
+        
+        src_path = os.path.join(source_folder, available_images[i])
+        dest_path = os.path.join(destination_folder, filename)
+        
+        # Create directories if they don't exist
+        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+        
+        # Move and rename the file
+        shutil.move(src_path, dest_path)
+        print(f"Moved {available_images[i]} -> {dest_path}")
+
+print("All images have been renamed and moved successfully.")
+

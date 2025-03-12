@@ -1,0 +1,94 @@
+/* theme.css - Main CSS file that imports all others */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('variables.css');
+@import url('reset.css');
+@import url('globals.css');
+@import url('utilities.css');
+@import url('components.css');
+
+/* Any additional theme-specific styles can go here */
+:root {
+  /* Theme-specific overrides */
+  --animation-duration-slow: 700ms;
+  --animation-duration-medium: 400ms;
+  --animation-duration-fast: 250ms;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background-color: white;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  a {
+    text-decoration: none !important;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+  
+  .card {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+/* Dark theme support (if needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-white: #1a1a1a;
+    --color-black: #f3f3f3;
+    --color-gray-50: #2d2d2d;
+    --color-gray-100: #333333;
+    --color-gray-200: #444444;
+    --color-gray-300: #555555;
+    --color-gray-400: #777777;
+    --color-gray-500: #999999;
+    --color-gray-600: #bbbbbb;
+    --color-gray-700: #cccccc;
+    --color-gray-800: #e0e0e0;
+    --color-gray-900: #f0f0f0;
+    
+    /* Preserve brand colors but may need to adjust */
+    --color-primary: #6366f1;
+    --color-primary-hover: #4f46e5;
+  }
+  
+  body {
+    color: var(--color-gray-200);
+    background-color: var(--color-gray-900);
+  }
+  
+  .card, .form-control {
+    background-color: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+  
+  .card-header, .card-footer {
+    background-color: var(--color-gray-900);
+  }
+  
+  .table {
+    color: var(--color-gray-300);
+  }
+  
+  .table th,
+  .table td {
+    border-color: var(--color-gray-700);
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

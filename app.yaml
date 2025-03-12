@@ -1,0 +1,35 @@
+# app.yaml
+runtime: nodejs18
+
+env_variables:
+  NODE_ENV: "production"
+  GOOGLE_CLOUD_PROJECT: "autoemail-453221"
+  PORT: "8080"
+
+handlers:
+  # Serve static assets
+  - url: /static
+    static_dir: client/build/static
+    secure: always
+    
+  # Serve other static files
+  - url: /(.*\.(json|ico|js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))$
+    static_files: client/build/\1
+    upload: client/build/.*\.(json|ico|js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$
+    secure: always
+    
+  # All other requests go to the Node.js app
+  - url: /.*
+    script: auto
+    secure: always
+
+automatic_scaling:
+  min_idle_instances: 1
+  max_idle_instances: automatic
+  min_pending_latency: automatic
+  max_pending_latency: automatic
+  min_instances: 1
+  max_instances: 10
+
+network:
+  session_affinity: true
