@@ -1,31 +1,39 @@
-// server/routes/knowledgeBaseRoutes.js
 const express = require('express');
 const router = express.Router();
 const { 
-  addEntry,
-  getEntries,
-  getEntryById,
-  updateEntry,
-  deleteEntry,
+  createKnowledgeBaseEntry,
+  getKnowledgeBaseEntries,
+  getKnowledgeBaseEntryById,
+  getKnowledgeBaseCategories,
+  updateKnowledgeBaseEntry,
+  deleteKnowledgeBaseEntry,
   searchKnowledgeBase
 } = require('../controllers/knowledgeBaseController');
 const { protect, checkSubscription } = require('../middleware/authMiddleware');
 
-// All routes need authentication and AI email automation subscription
+// All routes need authentication
 router.use(protect);
+
+// Routes that need AI automation subscription
 router.use(checkSubscription('aiEmailAutomation'));
 
-// CRUD operations
+// Get and create knowledge base entries
 router.route('/')
-  .post(addEntry)
-  .get(getEntries);
+  .get(getKnowledgeBaseEntries)
+  .post(createKnowledgeBaseEntry);
 
+// Search knowledge base
+router.route('/search')
+  .post(searchKnowledgeBase);
+
+// Get categories (if needed as a separate endpoint)
+router.route('/categories')
+  .get(getKnowledgeBaseCategories);
+
+// Get, update and delete specific entry
 router.route('/:id')
-  .get(getEntryById)
-  .put(updateEntry)
-  .delete(deleteEntry);
-
-// Search functionality
-router.get('/search', searchKnowledgeBase);
+  .get(getKnowledgeBaseEntryById)
+  .put(updateKnowledgeBaseEntry)
+  .delete(deleteKnowledgeBaseEntry);
 
 module.exports = router;

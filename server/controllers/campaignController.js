@@ -4,12 +4,14 @@ const ContactList = require('../models/ContactList');
 const EmailLog = require('../models/EmailLog');
 const emailService = require('../services/email/emailService');
 const { Storage } = require('@google-cloud/storage');
+
 const csv = require('csv-parser');
 const xlsx = require('xlsx');
 
 // Initialize Google Cloud Storage
 const storage = new Storage();
-const contactsBucket = storage.bucket(process.env.CONTACT_UPLOADS_BUCKET);
+// const contactsBucket = storage.bucket(process.env.CONTACT_UPLOADS_BUCKET);
+const { contactsBucket, getPublicUrl } = require('../config/storage');
 
 // @desc   Create a new campaign
 // @route  POST /api/campaigns

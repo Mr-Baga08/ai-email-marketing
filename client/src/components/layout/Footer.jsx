@@ -136,7 +136,7 @@ const Footer = () => {
               &copy; {currentYear} Email AI. All rights reserved.
             </p>
             <p className="text-sm text-gray-400 mt-2 md:mt-0">
-              Made with ❤️ for better email marketing
+              Another tool to make you more lazy 😈
             </p>
           </div>
         </div>

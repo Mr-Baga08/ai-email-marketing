@@ -17,8 +17,9 @@ COPY . .
 
 # Build frontend
 WORKDIR /app/client
+COPY client/package.json client/package-lock.json ./
+RUN npm install  # <-- Use install instead of ci to avoid missing dependencies
 COPY client/. .
-RUN npm ci
 RUN npm run build
 
 

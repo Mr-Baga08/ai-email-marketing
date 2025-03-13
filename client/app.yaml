@@ -31,4 +31,4 @@ automatic_scaling:
   max_instances: 10
 
 network:
-  session_affinity: true
+  session_affinity: true 

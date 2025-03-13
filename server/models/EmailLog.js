@@ -18,9 +18,11 @@ const EmailLogSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
+  campaignId: String,
   subject: String,
   content: String,
   recipientEmail: String,
+  trackingId: String,
   status: {
     type: String,
     enum: ['sent', 'delivered', 'failed', 'opened', 'clicked', 'bounced', 'complained'],
@@ -28,7 +30,7 @@ const EmailLogSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['campaign', 'automated', 'ai-response'],
+    enum: ['campaign', 'automated', 'ai-response', 'test'],
     default: 'campaign'
   },
   metadata: {

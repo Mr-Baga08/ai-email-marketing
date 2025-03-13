@@ -1,0 +1,31 @@
+steps:
+  # Install root dependencies
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+    
+  # Install client dependencies with legacy peer deps flag
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install', '--legacy-peer-deps']
+    dir: 'client'
+    
+  # Explicitly install react-scripts in client directory
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install', 'react-scripts', '--save']
+    dir: 'client'
+    
+  # Run the custom build script in client directory
+  - name: 'gcr.io/cloud-builders/node'
+    args: ['build.js']
+    dir: 'client'
+    env:
+      - 'NODE_ENV=production'
+      - 'CI=false'
+      - 'NODE_OPTIONS=--max_old_space_size=2048'
+    
+  # Deploy to App Engine
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy']
+    
+timeout: '1800s'  # 30 minutes
+options:
+  logging: CLOUD_LOGGING_ONLY

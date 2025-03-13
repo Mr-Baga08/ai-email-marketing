@@ -80,6 +80,37 @@ const PLANS = {
   }
 };
 
+// @desc   Get available subscription plans
+// @route  GET /api/subscriptions/plans
+// @access Private
+exports.getPlans = async (req, res) => {
+  try {
+    res.json(PLANS);
+  } catch (error) {
+    console.error('Error getting plans:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @desc   Get user subscription history
+// @route  GET /api/subscriptions/history
+// @access Private
+exports.getSubscriptionHistory = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({ history: user.subscriptionHistory || [] });
+  } catch (error) {
+    console.error('Error getting subscription history:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+
 // @desc   Get current user subscription
 // @route  GET /api/subscriptions
 // @access Private
@@ -487,3 +518,5 @@ exports.getUsageStats = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
