@@ -9,15 +9,7 @@ env_variables:
   NODE_OPTIONS: "--max_old_space_size=2048"
   NPM_CONFIG_LEGACY_PEER_DEPS: "true"
 
-# VPC connector configuration - UNCOMMENTED and ACTIVE
-# You'll need to replace the region and connector name with your actual values
-vpc_access_connector:
-  name: projects/autoemail-453221/locations/us-central1/connectors/mongodb-autoemmail
-
-# Increase app start timeout for MongoDB connection
-readiness_check:
-  app_start_timeout_sec: 300
-
+# Cloud Build specific settings
 build_env_variables:
   NPM_CONFIG_LEGACY_PEER_DEPS: "true"
   NODE_OPTIONS: "--max_old_space_size=2048"

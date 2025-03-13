@@ -1,3 +1,4 @@
+// server/index.js - Fixed version
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -6,7 +7,8 @@ const helmet = require('helmet');
 const path = require('path');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-// Import the database connection module
+
+// Import the database connection module - Fixed import
 const { connectToDatabase } = require('./database');
 
 // Import routes
@@ -111,34 +113,42 @@ const gracefulShutdown = (signal) => {
   console.log(`Received ${signal}. Shutting down gracefully...`);
   
   // Close the server
-  server.close(() => {
-    console.log('HTTP server closed');
-    
-    // Disconnect from MongoDB
-    mongoose.connection.close(false).then(() => {
-      console.log('MongoDB connection closed');
-      process.exit(0);
-    }).catch((err) => {
-      console.error('Error during MongoDB disconnection:', err);
-      process.exit(1);
+  if (server) {
+    server.close(() => {
+      console.log('HTTP server closed');
+      
+      // Disconnect from MongoDB if connected
+      if (mongoose.connection.readyState !== 0) {
+        mongoose.connection.close(false).then(() => {
+          console.log('MongoDB connection closed');
+          process.exit(0);
+        }).catch((err) => {
+          console.error('Error during MongoDB disconnection:', err);
+          process.exit(1);
+        });
+      } else {
+        process.exit(0);
+      }
+      
+      // Force exit after timeout
+      setTimeout(() => {
+        console.error('Could not close connections in time, forcefully shutting down');
+        process.exit(1);
+      }, 10000); // 10 seconds
     });
-    
-    // Force exit after timeout
-    setTimeout(() => {
-      console.error('Could not close connections in time, forcefully shutting down');
-      process.exit(1);
-    }, 10000); // 10 seconds
-  });
+  } else {
+    process.exit(0);
+  }
 };
 
 // Start the application
 const startApp = async () => {
   try {
-    // Use the new connectToDatabase function
+    // Connect to database
     await connectToDatabase();
     
     // Start the server
-    const server = app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     });
@@ -162,6 +172,17 @@ const startApp = async () => {
     return server;
   } catch (error) {
     console.error('Failed to start the application:', error);
+    
+    // In non-production, start the server even if database connection fails
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('Starting server without database connection in development mode');
+      server = app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT} (NO DATABASE CONNECTION)`);
+        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      });
+      return server;
+    }
+    
     process.exit(1);
   }
 };

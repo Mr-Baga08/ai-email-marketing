@@ -91,21 +91,36 @@
 //   getMongoURI
 // };
 
+// server/database.js
 const mongoose = require('mongoose');
 
-// For local development, simplified version
+/**
+ * Get MongoDB URI from environment variable with fallback
+ * @returns {Promise<string>} MongoDB connection URI
+ */
 async function getMongoURI() {
-  // Just return the environment variable directly
+  // Return the environment variable if set
   if (process.env.MONGODB_URI) {
     return process.env.MONGODB_URI;
   }
-  throw new Error('MONGODB_URI environment variable is not set');
+  
+  // Fallback to a default development URI if not set
+  console.warn('MONGODB_URI environment variable not set. Using default development URI.');
+  return 'mongodb://localhost:27017/email-marketing-ai';
 }
 
+/**
+ * Connect to MongoDB database
+ * @returns {Promise<mongoose.Connection>} Mongoose connection
+ */
 async function connectToDatabase() {
   try {
     const mongoURI = await getMongoURI();
     console.log("Attempting to connect to MongoDB...");
+    
+    if (!mongoURI.startsWith('mongodb://') && !mongoURI.startsWith('mongodb+srv://')) {
+      throw new Error('Invalid MongoDB URI format. URI must start with mongodb:// or mongodb+srv://');
+    }
     
     const clientOptions = { 
       serverApi: { 
@@ -131,7 +146,16 @@ async function connectToDatabase() {
     return mongoose.connection;
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    throw error;
+    
+    // For production environments, it might be better to exit
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Fatal: Unable to connect to MongoDB in production environment');
+      throw error;
+    }
+    
+    // For development, we might want to continue with a warning
+    console.warn('WARNING: Server will start without database connection');
+    return null;
   }
 }
 

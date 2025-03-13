@@ -2,10 +2,48 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
-const secretClient = new SecretManagerServiceClient();
+// const secretClient = new SecretManagerServiceClient();
 
-// Helper to get JWT secret from Secret Manager
+// // Helper to get JWT secret from Secret Manager
+// const getJwtSecret = async () => {
+//   try {
+//     const [version] = await secretClient.accessSecretVersion({
+//       name: `projects/${process.env.GOOGLE_CLOUD_PROJECT}/secrets/jwt-secret/versions/latest`,
+//     });
+//     return version.payload.data.toString();
+//   } catch (error) {
+//     console.error('Error accessing JWT secret:', error);
+//     return process.env.JWT_SECRET || 'fallbacksecret'; // Fallback for dev environment
+//   }
+// };
+
+// // Generate JWT Token
+// const generateToken = async (userId) => {
+//   const secret = await getJwtSecret();
+//   return jwt.sign({ id: userId }, secret, {
+//     expiresIn: '30d'
+//   });
+// };
+
+// Initialize Secret Manager client conditionally
+const useGcpServices = process.env.USE_GCP_SERVICES === 'true';
+let secretClient;
+if (useGcpServices) {
+  secretClient = new SecretManagerServiceClient();
+}
+
+// Helper to get JWT secret from Secret Manager or env
 const getJwtSecret = async () => {
+  // If not using GCP services, just return the environment variable
+  if (!useGcpServices) {
+    if (!process.env.JWT_SECRET) {
+      console.warn('JWT_SECRET environment variable not set!');
+      return 'development_jwt_secret_not_for_production';
+    }
+    return process.env.JWT_SECRET;
+  }
+  
+  // If using GCP, try to get from Secret Manager
   try {
     const [version] = await secretClient.accessSecretVersion({
       name: `projects/${process.env.GOOGLE_CLOUD_PROJECT}/secrets/jwt-secret/versions/latest`,
@@ -13,16 +51,26 @@ const getJwtSecret = async () => {
     return version.payload.data.toString();
   } catch (error) {
     console.error('Error accessing JWT secret:', error);
-    return process.env.JWT_SECRET || 'fallbacksecret'; // Fallback for dev environment
+    // Fallback to environment variable
+    if (process.env.JWT_SECRET) {
+      console.warn('Falling back to JWT_SECRET environment variable');
+      return process.env.JWT_SECRET;
+    }
+    throw new Error('Failed to get JWT secret from both Secret Manager and environment variables');
   }
 };
 
 // Generate JWT Token
 const generateToken = async (userId) => {
-  const secret = await getJwtSecret();
-  return jwt.sign({ id: userId }, secret, {
-    expiresIn: '30d'
-  });
+  try {
+    const secret = await getJwtSecret();
+    return jwt.sign({ id: userId }, secret, {
+      expiresIn: '30d'
+    });
+  } catch (error) {
+    console.error('Error generating token:', error);
+    throw error;
+  }
 };
 
 // @desc   Register a new user
